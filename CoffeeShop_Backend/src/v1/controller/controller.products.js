@@ -1,12 +1,18 @@
 // Imports
 const productsModel = require("../models/model.products")
+const validator = require('validator') // validator
 
 const productsController = {
     get: (req, res) => {
-        return productsModel.get(req.query).then(result => {
+        const page = (req.query.page && req.query.page > 0) ? parseInt(req.query.page) : 1
+        const limit = (req.query.limit && req.query.page > 0) ? parseInt(req.query.limit) : 10
+        const offset = limit * (page - 1)
+        return productsModel.get(req.query, limit, offset).then(result => {
             return res.send({
                 Message: 'Successfully fetch data from database',
-                Data: result
+                TotalRows: result.totalRows,
+                TotalPage: result.totalPage,
+                Data: result.Data
             })
         }).catch(error => {
             return res.send({

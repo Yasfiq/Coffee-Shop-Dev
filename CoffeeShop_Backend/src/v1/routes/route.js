@@ -8,7 +8,7 @@ router.use('/products', productsRoute)
 
 // Route home
 router.get('/', (req, res) => {
-    return res.send({
+    return res.status(200).send({
         Status: 200,
         Message: "Welcome to Homepage"
     })

@@ -3,13 +3,20 @@ const db = require("../helper/database.connect")
 const { v4: uuidv4 } = require('uuid')
 
 const productsModel = {
-    get: function (queryParams) {
+    get: function (queryParams, limit, offset) {
         return new Promise((success, failed) => {
-            db.query(`SELECT * FROM products ${this.search(queryParams.search)} ${this.sort(queryParams.sort)} ${this.order(queryParams.order)}`, (error, result) => {
+            db.query(`SELECT * FROM products ${this.search(queryParams.search)} ${this.sort(queryParams.sort)} ${this.order(queryParams.order)} ${this.pagination(limit, offset)}`, async (error, result) => {
+                console.log(this.search(queryParams.search));
                 if (error) {
                     return failed(error.message)
                 } else {
-                    return success(result.rows)
+                    const totalRows = await this.total()
+                    const totalPage = Math.ceil(totalRows / limit)
+                    return success({
+                        Data: result.rows,
+                        totalRows,
+                        totalPage
+                    })
                 }
             })
         })
@@ -56,8 +63,9 @@ const productsModel = {
         })
     },
     search: (queryParams) => {
+        const price = parseInt(queryParams)
         if (queryParams) {
-            return `WHERE productname LIKE '%${queryParams}%' OR category LIKE '%${queryParams}%'  OR price=${queryParams}`
+            return `WHERE productname ILIKE '%${queryParams}%' OR category ILIKE '%${queryParams}%'`
         } else {
             return
         }
@@ -70,11 +78,29 @@ const productsModel = {
         }
     },
     order: (queryParams) => {
-        if (queryParams.toUpperCase() === 'DESC') {
+        if (queryParams === 'DESC' || queryParams === 'desc') {
             return 'DESC'
         } else {
             return ''
         }
+    },
+    pagination: (limit, offset) => {
+        if (offset > 0 || limit == 1) {
+            return `LIMIT ${limit} OFFSET ${offset}`
+        } else {
+            return `LIMIT 10 OFFSET 0`
+        }
+    },
+    total: () => {
+        return new Promise((success, failed) => {
+            db.query(`SELECT COUNT(id) FROM products`, (error, dataRes) => {
+                if (error) {
+                    return failed(error.message)
+                } else {
+                    return success(dataRes.rows[0].count)
+                }
+            })
+        }).then(res => parseInt(res))
     }
 }
 

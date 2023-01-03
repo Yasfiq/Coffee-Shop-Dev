@@ -1,10 +1,13 @@
+// Imports
 const { Client } = require('pg')
+require('dotenv').config()
+
 const db = new Client({
-    user: 'postgres',
-    password: 'ysq91185933.',
-    database: 'Coffee Shop',
-    host: 'localhost',
-    port: 5432
+    user: process.env.db_user,
+    password: process.env.db_password,
+    database: process.env.db_database,
+    host: process.env.db_host,
+    port: process.env.db_port
 })
 
 db.connect(error => {
