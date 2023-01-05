@@ -1,3 +1,4 @@
+/* eslint-disable no-undef */
 // Imports
 const express = require('express')
 const router = express()
@@ -15,4 +16,5 @@ router.get('/', (req, res) => {
 })
 
 // Exports
+// eslint-disable-next-line no-undef
 module.exports = router
