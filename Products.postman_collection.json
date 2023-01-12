@@ -1,0 +1,235 @@
+{
+	"info": {
+		"_postman_id": "052c9785-9619-42bf-92ff-43df42e6f3b5",
+		"name": "Products",
+		"description": "This is rest api for backend web apps Coffe Shop projects, and in this documentation only for endpoint [`http://localhost:3000`](http://localhost:3000)`.` This REST API version 1.0.0. So the endpoint to [`http://localhost:3000/products/api/v1/products`](http://localhost:3000/products/api/v1/products.)",
+		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json",
+		"_exporter_id": "24646572"
+	},
+	"item": [
+		{
+			"name": "Get Product",
+			"protocolProfileBehavior": {
+				"disableBodyPruning": true
+			},
+			"request": {
+				"method": "GET",
+				"header": [],
+				"body": {
+					"mode": "urlencoded",
+					"urlencoded": []
+				},
+				"url": {
+					"raw": "http://localhost:3000/api/v1/products/?search=&sort=productname",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "3000",
+					"path": [
+						"api",
+						"v1",
+						"products",
+						""
+					],
+					"query": [
+						{
+							"key": "search",
+							"value": ""
+						},
+						{
+							"key": "sort",
+							"value": "productname"
+						},
+						{
+							"key": "order",
+							"value": "desc",
+							"disabled": true
+						},
+						{
+							"key": "page",
+							"value": "1",
+							"disabled": true
+						},
+						{
+							"key": "limit",
+							"value": "2",
+							"disabled": true
+						}
+					]
+				},
+				"description": "You can search and pagination witih request params GET"
+			},
+			"response": []
+		},
+		{
+			"name": "Get Product by id",
+			"protocolProfileBehavior": {
+				"disableBodyPruning": true
+			},
+			"request": {
+				"method": "GET",
+				"header": [],
+				"body": {
+					"mode": "urlencoded",
+					"urlencoded": []
+				},
+				"url": {
+					"raw": "http://localhost:3000/api/v1/products/:id",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "3000",
+					"path": [
+						"api",
+						"v1",
+						"products",
+						":id"
+					],
+					"variable": [
+						{
+							"key": "id",
+							"value": "759568b8-4164-4341-a9eb-e56946852eac"
+						}
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Post Product",
+			"request": {
+				"method": "POST",
+				"header": [],
+				"body": {
+					"mode": "urlencoded",
+					"urlencoded": [
+						{
+							"key": "productname",
+							"value": "Ice Cream Boba Mixue",
+							"type": "text"
+						},
+						{
+							"key": "price",
+							"value": "18000",
+							"type": "text"
+						},
+						{
+							"key": "category",
+							"value": "Ice Cream",
+							"type": "text"
+						},
+						{
+							"key": "productimage",
+							"value": "icemixue.jpg",
+							"type": "text"
+						}
+					]
+				},
+				"url": {
+					"raw": "http://localhost:3000/api/v1/products",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "3000",
+					"path": [
+						"api",
+						"v1",
+						"products"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Edit Product",
+			"request": {
+				"method": "PATCH",
+				"header": [],
+				"body": {
+					"mode": "urlencoded",
+					"urlencoded": [
+						{
+							"key": "productName",
+							"value": "Nasi Goreng Boba",
+							"type": "text"
+						},
+						{
+							"key": "price",
+							"value": "35000",
+							"type": "text",
+							"disabled": true
+						},
+						{
+							"key": "category",
+							"value": "Food",
+							"type": "text",
+							"disabled": true
+						},
+						{
+							"key": "productimage",
+							"value": "nasi_gorengtuhman.png",
+							"type": "text",
+							"disabled": true
+						}
+					]
+				},
+				"url": {
+					"raw": "http://localhost:3000/api/v1/products/:id",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "3000",
+					"path": [
+						"api",
+						"v1",
+						"products",
+						":id"
+					],
+					"variable": [
+						{
+							"key": "id",
+							"value": "95cff6d2-31ec-4593-8152-374aa8849bd6"
+						}
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Edit Product Copy",
+			"request": {
+				"method": "DELETE",
+				"header": [],
+				"body": {
+					"mode": "urlencoded",
+					"urlencoded": []
+				},
+				"url": {
+					"raw": "http://localhost:3000/api/v1/products/:id",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "3000",
+					"path": [
+						"api",
+						"v1",
+						"products",
+						":id"
+					],
+					"variable": [
+						{
+							"key": "id",
+							"value": "056b18d2-1379-4960-8322-2d4796d6ca04"
+						}
+					]
+				}
+			},
+			"response": []
+		}
+	]
+}

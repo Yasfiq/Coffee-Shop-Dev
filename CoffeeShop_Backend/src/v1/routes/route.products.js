@@ -1,40 +1,25 @@
-/* eslint-disable no-undef */
 // Imports
-// eslint-disable-next-line no-undef
-const express = require('express')
-const router = express()
-const productsController = require('../controller/controller.products')
-const multer = require('multer') // multer
+const express = require('express') // Express Js
+const router = express() // Express Js
+const productsController = require('../controller/controller.products') // Products Controller
+const productImageController = require('../controller/controller.image')
+const verifyToken = require('../helper/verifyToken') // Token verifying
+const {upload, uploadSingle } = require('../helper/upload.image') // Upload Image
 
-const storage = multer.diskStorage({
-    destination: function (req, file, cb) {
-        cb(null, '/uploads')
-    },
-    filename: function (req, file, cb) {
-        cb(null, file.fieldname + '_' + Data.now() + '_' + file.originalname)
-    }
-})
 
-// eslint-disable-next-line no-unused-vars
-const upload = multer({
-    storage: storage
-})
-
-// Endpoint
+// Endpoint Product
 router.get('/', productsController.get)
 router.get('/:id', productsController.getById)
-router.post('/', /* upload.single('productimage'),*/ productsController.add)
-router.patch('/:id', /* upload.single('productimage'),*/ productsController.edit)
-router.delete('/:id', productsController.remove)
+router.post('/', verifyToken, upload, productsController.add)
+router.patch('/:id', verifyToken, upload, productsController.edit)
+router.delete('/:id', verifyToken, productsController.remove)
 
-// Error Handling 400:ID not found
-router.use(`/*`, (req, res) => {
-    return res.status(400).send({
-        Status: 400,
-        Message: 'ID not found!'
-    })
-})
+// Endpoint Images
+router.get('/image/:id', productImageController.getById)
+router.post('/image/:id', uploadSingle, productImageController.add)
+router.patch('/image/:id', uploadSingle, productImageController.edit)
+router.delete('/image/:id', productImageController.remove)
+
 
 // Exports
-// eslint-disable-next-line no-undef
 module.exports = router

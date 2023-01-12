@@ -1,23 +1,26 @@
-/* eslint-disable no-undef */
 // Imports
 const express = require('express') // Express Js
 const app = express() // Express Js
-require('dotenv').config() // dotenv package
 const { urlencoded, json } = require('express') // Middleware urlencoded,json
+const cors = require('cors') // cors
+require('dotenv').config() // dotenv package
+// eslint-disable-next-line no-undef
+const { PORT, CORS_ACCESS, API_VERSION } = process.env // Enviroment Variable
+const router = require(`./src/${API_VERSION}/routes/route`) // route home
 app.use(urlencoded({ extended: false })) // Middleware urlencoded
 app.use(json()) // Middleware json
-const router = require(`./src/${process.env.api_version}/routes/route`) // route home
-const cors = require('cors') // cors
 app.use(express.static('public')) // Middleware static folder
-const { PORT, CORS_ACCESS, API_VERSION } = process.env // Enviroment Variable
 
 
+// CORS Middleware
 app.use(cors({
     origin: CORS_ACCESS
 }))
 
+
 // Route prefix root
 app.use(`/api/${API_VERSION}`, router)
+
 
 // Error Handling 404:Page not found
 app.use('/*', (req, res) => {

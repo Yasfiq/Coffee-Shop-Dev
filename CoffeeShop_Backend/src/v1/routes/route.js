@@ -1,13 +1,17 @@
-/* eslint-disable no-undef */
 // Imports
-const express = require('express')
-const router = express()
-const productsRoute = require('./route.products')
+const express = require('express') // Express Js
+const router = express() // Express Js
+const productsRoute = require('./route.products') // Product Route
+const authRoute = require('./route.auth') // Auth route
 
-// Route products
+
+// Routing products
 router.use('/products', productsRoute)
+// Routing Auth
+router.use('/auth', authRoute)
 
-// Route home
+
+// Home route
 router.get('/', (req, res) => {
     return res.status(200).send({
         Status: 200,
@@ -15,6 +19,6 @@ router.get('/', (req, res) => {
     })
 })
 
+
 // Exports
-// eslint-disable-next-line no-undef
 module.exports = router
