@@ -67,19 +67,26 @@ const productsModel = {
                             if (error) {
                                 return failed(error.message)
                             } else {
-                                if (file.length == 0) return success({ id, productname, price, category, description, size, delivery })
+                                if (file.length == 0) {
+                                    db.query(`UPDATE product_images SET name=$1 WHERE id_product=$2`, [productname || dataRes.rows[0].productname, id], (err) => {
+                                        if(err) {
+                                            return failed(err.message)
+                                        }
+                                    })
+                                    return success({ id, productname, price, category, description, size, delivery })
+                                }
                                 db.query(`SELECT id_image,filename FROM product_images WHERE id_product='${id}'`, (errOld, resultOld) => {
                                     if (errOld) return failed(error.message)
                                     console.log(resultOld.rows.length);
                                     for (let i = 0;i < file.length; i++) {
                                         if (i >= resultOld.rows.length) {
-                                            console.log(`file ${i}`);
+                                            // console.log(`file ${i}`);
                                             db.query(`INSERT INTO product_images (id_image, id_product, name, filename) VALUES ($1, $2, $3, $4)`, [uuidv4(), id, productname || dataRes.rows[0].productname, file[i].filename], (err) => {
                                                 if (err) return failed(err.message)
                                             })
                                         } else {
-                                            console.log(`file ${i}`);
-                                            db.query(`UPDATE product_images SET filename=$1 WHERE id_image=$2`, [file[i].filename, resultOld.rows[i].id_image], (err) => {
+                                            // console.log(`file ${i}`);
+                                            db.query(`UPDATE product_images SET name=$1, filename=$2 WHERE id_image=$3`, [productname || dataRes.rows[0].productname, file[i].filename, resultOld.rows[i].id_image], (err) => {
                                                 if (err) return failed(err.message)
                                                 return success({ id, productname, price, category, description, size, delivery, oldImages: resultOld.rows, productimage: file })
                                             })

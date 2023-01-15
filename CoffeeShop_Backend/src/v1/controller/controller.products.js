@@ -38,7 +38,7 @@ const productsController = {
                 Message: `Successfully fetch data id=${id} from database`,
                 Data: result
             })
-        }).catch(error => res.send({ Message: error }))
+        }).catch(error => res.status(400).send({ Message: error }))
     },
     add: (req, res) => {
         // Check if input is empty
@@ -77,7 +77,7 @@ const productsController = {
             })
             // Error handling
             .catch(error => {
-                return res.send({
+                return res.status(400).send({
                     Message: `Failed to add, Error: ${error}`
                 })
             })
